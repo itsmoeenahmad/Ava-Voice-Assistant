@@ -1,17 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class ResponseProviderClass extends ChangeNotifier
-{
+class ResponseProviderClass extends ChangeNotifier {
   String GeminiResponseIs = "";
   bool GeminiBool = true;
 
-
-
-
-  void UpdateGeminiResponse(String? response, bool newBool)
-  {
+  void UpdateGeminiResponse(String? response, bool newBool) {
     GeminiResponseIs = response!;
-    GeminiBool=newBool;
+    GeminiBool = newBool;
     notifyListeners();
   }
 }

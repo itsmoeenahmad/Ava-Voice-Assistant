@@ -1,6 +1,5 @@
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-
 import '../Gemini Code/GeminiCode.dart';
 
 class SpeechToTextClass {
@@ -26,11 +25,14 @@ class SpeechToTextClass {
   void _onSpeechResult(SpeechRecognitionResult result) {
     _lastWords=result.recognizedWords;
     print('Words are ${_lastWords}');
+    print('----------Words Ended----------');
   }
 
 //Stopping the listening
   void stopListening(context) async {
+    print('Stopped Listening Called');
     await speechToText.stop();
+    print('--------------------Stopped-------------------- & Words Are:  ${_lastWords}');
     GeminiRequest(context, _lastWords);
   }
 }

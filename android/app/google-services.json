@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "179662886033",
+    "project_id": "ava-voice-assistant-5e94b",
+    "storage_bucket": "ava-voice-assistant-5e94b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179662886033:android:ca11decd25e86504b61b30",
+        "android_client_info": {
+          "package_name": "com.voice.assistant.voiceassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179662886033-bt6fpp40ir4j9012jvgf0jgphfqnf9sf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voice.assistant.voiceassistant",
+            "certificate_hash": "d1c77ff4d91c58326159f67b42b181980a6cde3e"
+          }
+        },
+        {
+          "client_id": "179662886033-4r19jltrsaa6rde0al6bg0q9bjqohjg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx7e-BcB1sXzGOBnb-OKNUUDSWX_Fd5gE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179662886033-4r19jltrsaa6rde0al6bg0q9bjqohjg7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "179662886033-68nasejrqcr2l9ueda4jnnuku5kh0960.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.voice.assistant.voiceassistant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
