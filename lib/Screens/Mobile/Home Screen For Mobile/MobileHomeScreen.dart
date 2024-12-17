@@ -49,7 +49,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
     });
     _speechToTextClass.initSpeech();
     _initializeTts();
-    WidgetsBinding.instance?.addObserver(this); // Add observer
+    WidgetsBinding.instance.addObserver(this); // Add observer
   }
 
   @override

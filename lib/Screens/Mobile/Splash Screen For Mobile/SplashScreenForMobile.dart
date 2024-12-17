@@ -32,6 +32,7 @@ class _SplashScreenForMobileState extends State<SplashScreenForMobile> {
 
   @override
   Widget build(BuildContext context) {
+    //For Media Query - Responsiveness
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -42,7 +43,7 @@ class _SplashScreenForMobileState extends State<SplashScreenForMobile> {
           child: SizedBox(
             height: height*0.25,
             width: width*0.8,
-            child: LoadingAnimationWidget.fallingDot(color: const Color(0xffF3F3F3), size: 80),
+           child: LoadingAnimationWidget.fallingDot(color: const Color(0xffF3F3F3), size: 80),
           ),
         ),
       )

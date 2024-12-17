@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:voiceassistant/Screens/Mobile/Auth%20For%20Mobile/AuthForMobile.dart';
 
@@ -17,10 +18,14 @@ Future<void> signOutWithGoogle(BuildContext context) async {
     // Show a success message
     showMessage(context, 'Successfully logged out');
 
+    //Resetting the introStatus
+    const secureStorage = FlutterSecureStorage();
+    secureStorage.write(key: 'introStatus', value: 'false');
+
     // Navigate to the login screen
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => AuthForMobile()),
+      MaterialPageRoute(builder: (context) =>  const AuthForMobile()),
     );
   } catch (e) {
     // Handle errors
