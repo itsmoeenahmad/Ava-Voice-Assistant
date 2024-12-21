@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:voiceassistant/Reusable%20Widgets/text.dart';
-import 'package:voiceassistant/Provider%20Classes/responseProviderClass.dart';
-import '../../Provider Classes/GeminiResponseProviderClass.dart';
-import '../../Provider Classes/OnOffProviderClass.dart';
-import '../../SpeechToText/SpeechToText.dart';
+
+import '../../../SpeechToText/SpeechToText.dart';
 
 class WebsiteHomeScreen extends StatefulWidget {
   const WebsiteHomeScreen({super.key});

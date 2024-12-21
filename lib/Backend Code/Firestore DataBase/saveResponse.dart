@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:voiceassistant/Provider%20Classes/savedIconStatusProviderClass.dart';
-import 'package:voiceassistant/Reusable%20Widgets/showMessage.dart';
+
+import '../../Frontend Code/Reusable Widgets/showMessage.dart';
+import '../../State Managment/Provider Classes/savedIconStatusProviderClass.dart';
 
 void saveResponse(context, String response){
   final firestoreInstance = FirebaseFirestore.instance.collection('savedResponses');

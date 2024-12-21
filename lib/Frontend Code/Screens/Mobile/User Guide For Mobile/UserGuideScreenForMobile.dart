@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voiceassistant/Reusable%20Widgets/text.dart';
+
+import '../../../Reusable Widgets/text.dart';
 
 class UserGuideScreenForMobile extends StatelessWidget {
   const UserGuideScreenForMobile({super.key});

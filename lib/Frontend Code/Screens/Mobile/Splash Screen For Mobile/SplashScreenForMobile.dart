@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:voiceassistant/Screens/Mobile/Auth%20For%20Mobile/AuthForMobile.dart';
-import 'package:voiceassistant/Screens/Mobile/Home%20Screen%20For%20Mobile/MobileHomeScreen.dart';
+
+import '../Auth For Mobile/AuthForMobile.dart';
+import '../Home Screen For Mobile/MobileHomeScreen.dart';
 
 class SplashScreenForMobile extends StatefulWidget {
   const SplashScreenForMobile({super.key});

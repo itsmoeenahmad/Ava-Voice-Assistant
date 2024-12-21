@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:voiceassistant/Screens/Mobile/Get%20Started%20For%20Mobile/GetStartedForMobile.dart';
-import '../../Reusable Widgets/showMessage.dart';
+
+import '../../Frontend Code/Reusable Widgets/showMessage.dart';
+import '../../Frontend Code/Screens/Mobile/Get Started For Mobile/GetStartedForMobile.dart';
 
 Future<void> signInWithGoogle(BuildContext context) async {
   try {

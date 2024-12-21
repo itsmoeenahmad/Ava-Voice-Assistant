@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:voiceassistant/Screens/Mobile/Auth%20For%20Mobile/AuthForMobile.dart';
 
-import '../../Reusable Widgets/showMessage.dart';
+import '../../Frontend Code/Reusable Widgets/showMessage.dart';
+import '../../Frontend Code/Screens/Mobile/Auth For Mobile/AuthForMobile.dart';
 
 Future<void> signOutWithGoogle(BuildContext context) async {
   try {

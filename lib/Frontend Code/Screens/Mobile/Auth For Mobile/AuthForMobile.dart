@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:voiceassistant/Reusable%20Widgets/text.dart';
-import '../../../Backend Code/Google Auth/signInWithGoogle.dart';
+import '../../../../Backend Code/Google Auth/signInWithGoogle.dart';
+import '../../../Reusable Widgets/text.dart';
 
 class AuthForMobile extends StatefulWidget {
   const AuthForMobile({super.key});

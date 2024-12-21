@@ -1,6 +1,7 @@
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import '../Gemini Code/GeminiCode.dart';
+
+import '../Backend Code/Gemini Code/GeminiCode.dart';
 
 class SpeechToTextClass {
 

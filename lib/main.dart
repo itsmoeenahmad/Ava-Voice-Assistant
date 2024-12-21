@@ -2,12 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:voiceassistant/Provider%20Classes/VoiceOffProviderClass.dart';
-import 'package:voiceassistant/Provider%20Classes/savedIconStatusProviderClass.dart';
-import 'package:voiceassistant/Screens/Main%20Screen/MainScreen.dart';
-import 'Provider Classes/responseProviderClass.dart';
-import 'Provider Classes/GeminiResponseProviderClass.dart';
-import 'Provider Classes/OnOffProviderClass.dart';
+import 'Frontend Code/Screens/Main Screen/MainScreen.dart';
+import 'State Managment/Provider Classes/GeminiResponseProviderClass.dart';
+import 'State Managment/Provider Classes/OnOffProviderClass.dart';
+import 'State Managment/Provider Classes/VoiceOffProviderClass.dart';
+import 'State Managment/Provider Classes/responseProviderClass.dart';
+import 'State Managment/Provider Classes/savedIconStatusProviderClass.dart';
 import 'firebase_options.dart';
 
 void main() async{

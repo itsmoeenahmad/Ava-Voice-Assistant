@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:voiceassistant/Reusable%20Widgets/text.dart';
-import 'package:voiceassistant/Screens/Mobile/Saved%20Responses%20For%20Mobile/ResponseScreen.dart';
+
+import '../../../Reusable Widgets/text.dart';
+import 'ResponseScreen.dart';
 
 class SavedReponsesForMobile extends StatefulWidget {
   const SavedReponsesForMobile({super.key});

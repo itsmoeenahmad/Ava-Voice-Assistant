@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:voiceassistant/Reusable%20Widgets/showMessage.dart';
-import '../Provider Classes/responseProviderClass.dart';
+import '../../Frontend Code/Reusable Widgets/showMessage.dart';
+import '../../State Managment/Provider Classes/responseProviderClass.dart';
 
 void GeminiRequest(context, String request) async {
   print('-----------Gemini Request Called----------- & Input is: ${request}');

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:voiceassistant/Screens/Mobile/Home%20Screen%20For%20Mobile/MobileHomeScreen.dart';
-
 import '../../../Reusable Widgets/text.dart';
+import '../Home Screen For Mobile/MobileHomeScreen.dart';
 
 class GetStartedScreenForMobile extends StatefulWidget {
   const GetStartedScreenForMobile({super.key});
