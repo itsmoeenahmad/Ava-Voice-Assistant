@@ -1,6 +1,6 @@
 # voiceassistant
 
-Simple Voice Assistant App In Flutter With Gemini
+Simple Voice Assistant App In Flutter Powered By Gemini
 
 ## Getting Started
 
