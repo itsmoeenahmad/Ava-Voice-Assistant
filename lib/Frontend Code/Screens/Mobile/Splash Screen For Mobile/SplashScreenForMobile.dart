@@ -16,16 +16,16 @@ class _SplashScreenForMobileState extends State<SplashScreenForMobile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 1),(){
+      if (!mounted) return;
       if(FirebaseAuth.instance.currentUser!=null)
         {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const MobileHomeScreen()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MobileHomeScreen()));
         }
       else
         {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const AuthForMobile()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const AuthForMobile()));
         }
     });
   }

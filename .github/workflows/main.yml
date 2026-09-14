@@ -1,3 +1,5 @@
+name: "CI"
+
 on:
   pull_request:
     branches:
@@ -8,42 +10,39 @@ on:
       - main
       - master
       - develop
-name: "Build & Release"
+
 jobs:
-  build:
-    name: Build & Release
-    runs-on: macos-latest
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'
+          channel: 'stable'
+          cache: true
+      - run: flutter pub get
+      # Style-only lints (naming/const) are pre-existing; fail on errors and warnings.
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+
+  build-android:
+    name: Build Android (debug)
+    needs: analyze-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.24.5'
           channel: 'stable'
-          architecture: x64
-
-      - run: flutter build apk --release --split-per-abi
-      - run: |
-          flutter build ios --no-codesign
-          cd build/ios/iphoneos
-          mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
-          zip -r app.ipa Payload
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}
-
-
-
-
-
-
-# push to master, main, develop
-# pull request on main master
+          cache: true
+      - run: flutter pub get
+      # Release artifacts are intentionally not published here: signing keys
+      # (android/key.properties) and GEMINI_API_KEY are not available in CI.
+      - run: flutter build apk --debug --dart-define=GEMINI_API_KEY=ci-placeholder

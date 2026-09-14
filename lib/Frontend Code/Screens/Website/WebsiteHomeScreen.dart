@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 import '../../../SpeechToText/SpeechToText.dart';
+import '../../Reusable Widgets/text.dart';
 
 class WebsiteHomeScreen extends StatefulWidget {
   const WebsiteHomeScreen({super.key});
@@ -14,7 +15,7 @@ class WebsiteHomeScreenState extends State<WebsiteHomeScreen> {
 
 
   //Creating an instance/object of SpeechToTextClass
-  SpeechToTextClass _speechToTextClass = new SpeechToTextClass();
+  final SpeechToTextClass _speechToTextClass = SpeechToTextClass();
 
   //Creating an instance/object of FlutterTts(Text to Speech)
   FlutterTts flutterTts = FlutterTts();
@@ -28,7 +29,7 @@ class WebsiteHomeScreenState extends State<WebsiteHomeScreen> {
 
   @override
   void dispose() {
-    _speechToTextClass.stopListening(context); // Stop listening before disposing
+    _speechToTextClass.stopListening(); // Stop listening before disposing
     flutterTts.stop(); // Stop speaking before disposing
     super.dispose();
   }
@@ -39,27 +40,19 @@ class WebsiteHomeScreenState extends State<WebsiteHomeScreen> {
     await flutterTts.setPitch(1.0);
   }
 
-  //FlutterTts For Speaking.
-  Future<void> _speak(String text) async {
-    if (text.isNotEmpty) {
-      await flutterTts.speak(text);
-    }
-  }
-
-  // Method to stop the speech.
-  Future<void> _stop() async {
-    await flutterTts.stop();
-  }
-
-
-
   @override
   Widget build(BuildContext context) {
-    print('WEBSITE VIEW');
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    // The desktop/tablet layout is not implemented yet (see the commented-out
+    // draft below); show a placeholder instead of a blank screen.
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xff272727),
+      body: Center(
+        child: text(
+            data: 'Ava Voice Assistant is available on mobile.',
+            fw: FontWeight.bold,
+            fs: 24,
+            col: const Color(0xffF2E7DC)),
+      ),
     );
 
     // return Scaffold(

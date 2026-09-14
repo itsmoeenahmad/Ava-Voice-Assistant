@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../../../../Backend Code/Firestore DataBase/saveResponse.dart';
+import '../../../../Backend Code/Gemini Code/GeminiCode.dart';
 import '../../../../Backend Code/Google Auth/signOutWithGoogle.dart';
 import '../../../../SpeechToText/SpeechToText.dart';
 import '../../../../State Managment/Provider Classes/GeminiResponseProviderClass.dart';
@@ -36,7 +37,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
 
 
   //Creating an instance/object of SpeechToTextClass
-  SpeechToTextClass _speechToTextClass = new SpeechToTextClass();
+  final SpeechToTextClass _speechToTextClass = SpeechToTextClass();
 
   //Creating an instance/object of FlutterTts(Text to Speech)
   FlutterTts flutterTts = FlutterTts();
@@ -54,17 +55,50 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
 
   @override
   void dispose() {
-    _speechToTextClass.stopListening(context); // Stop listening before disposing
+    _speechToTextClass.stopListening(); // Stop listening before disposing
     flutterTts.stop(); // Stop speaking before disposing
-    WidgetsBinding.instance?.removeObserver(this); // Remove observer
+    WidgetsBinding.instance.removeObserver(this); // Remove observer
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused || state == AppLifecycleState.detached || state == AppLifecycleState.inactive) {
       flutterTts.stop(); // Stop TTS when the app is paused or detached
     }
+  }
+
+  //Starts a new recognition session, or ends the running one and asks Gemini.
+  Future<void> _onMicPressed() async {
+    context.read<VoiceOffProviderClass>().changeVoiceStatus(newbool: false);
+    await _stop();
+    if (!mounted) return;
+
+    if (_speechToTextClass.isListening) {
+      final words = await _speechToTextClass.stopListening();
+      if (!mounted) return;
+
+      context.read<OnOffProviderClass>().changeOnorOff(false);
+      context.read<GeminiResponseProviderClass>().changeResponse(false);
+      context.read<SavedIconStatusProviderClass>().changeStatus(false);
+      context.read<ResponseProviderClass>().UpdateGeminiResponse('', true);
+
+      await GeminiRequest(context, words);
+      if (!mounted) return;
+
+      await _speak(context.read<ResponseProviderClass>().GeminiResponseIs);
+      return;
+    }
+
+    final started = await _speechToTextClass.startListening();
+    if (!mounted) return;
+
+    if (!started) {
+      showMessage(context, 'Microphone Permission Is Required');
+      return;
+    }
+    context.read<OnOffProviderClass>().changeOnorOff(true);
   }
 
 
@@ -91,7 +125,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   //Secure Storage Instance
-  FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   //Creating a GlobalKey for the Intro.
   final GlobalKey drawerKey = GlobalKey();
@@ -102,11 +136,10 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
 
     //Getting the introStatus
     String? introStatus =  await secureStorage.read(key: 'introStatus');
+    if (!mounted) return;
 
     if(introStatus!='true')
       {
-        print('Show the Intro');
-
         final targets = [
           TargetFocus(
             identify: 'floatingButton',
@@ -158,11 +191,9 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                 fontSize: 25
             ),
             onFinish: () async {
-              print('finish..............Updating the Status Of Intro');
               await secureStorage.write(key: 'introStatus', value: 'true');
             },
             onSkip: ()  {
-              print('Skipped-Done............Updating the Status Of Intro');
               secureStorage.write(key: 'introStatus', value: 'true');
               return true;
             }
@@ -170,13 +201,9 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
 
         // Show the tutorial after a delay
         Future.delayed(const Duration(milliseconds: 500), () {
+          if (!mounted) return;
           tutorial.show(context: context);
         });
-      }
-    else
-      {
-        print('Skip the Intro');
-        print(introStatus);
       }
 
   }
@@ -191,6 +218,8 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final user = FirebaseAuth.instance.currentUser;
+    final photoUrl = user?.photoURL;
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xff272727),
@@ -249,7 +278,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                 color: Colors.transparent,
                 child: Center(
                   child: LoadingAnimationWidget.staggeredDotsWave(
-                    color: const Color(0xffF2EF7DC),
+                    color: const Color(0xffF2E7DC),
                     size: 60,
                   ),
                 ),
@@ -291,7 +320,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                           data: 'Here are a few features',
                           fw: FontWeight.bold,
                           fs: 25,
-                          col: Color(0xffF2EF7DC))),
+                          col: Color(0xffF2E7DC))),
                   SizedBox(
                     height: height * 0.02,
                   ),
@@ -322,7 +351,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                                     data: 'Smart Listening:',
                                     fw: FontWeight.w700,
                                     fs: 18,
-                                    col: Color(0xffF2EF7DC)),
+                                    col: Color(0xffF2E7DC)),
                                 text(
                                     data:
                                     'Ava Voice Assistance listens to your requests with precision and generates the best responses.',
@@ -365,7 +394,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                                     data: 'Effortless Experience:',
                                     fw: FontWeight.w700,
                                     fs: 18,
-                                    col: Color(0xffF2EF7DC)),
+                                    col: Color(0xffF2E7DC)),
                                 text(
                                     data:
                                     'Enjoy a seamless experience with advanced AI that understands and fulfills your needs effortlessly.',
@@ -408,7 +437,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                                     data: 'Powered by Gemini',
                                     fw: FontWeight.w700,
                                     fs: 18,
-                                    col: Color(0xffF2EF7DC)),
+                                    col: Color(0xffF2E7DC)),
                                 text(
                                     data:
                                     'Powered by Gemini technology, Ava Voice Assistant offers smart, personalized assistance tailored just for you.',
@@ -437,7 +466,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                 color: Colors.transparent,
                 child: Center(
                   child: LoadingAnimationWidget.inkDrop(
-                    color: const Color(0xffF2EF7DC),
+                    color: const Color(0xffF2E7DC),
                     size: 60,
                   ),
                 ),
@@ -460,14 +489,13 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                           )),
                       child: Consumer<ResponseProviderClass>(builder: (BuildContext context, ResponseProviderClass responseProviderClass, Widget? child) {
 
-                        response = '${responseProviderClass.GeminiResponseIs}';
-                        _speak(response!); // Call the TTS function when the response is updated
+                        response = responseProviderClass.GeminiResponseIs;
 
                         return Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: SingleChildScrollView(
                             child: text(
-                                data: '${response}',
+                                data: response!,
                                 fw: FontWeight.bold,
                                 fs: 15,
                                 col: const Color(0xffF2E7DC)),
@@ -491,7 +519,8 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                         //Copy Icon
                         InkWell(
                           onTap: () async{
-                            await Clipboard.setData(ClipboardData(text: response!));
+                            await Clipboard.setData(ClipboardData(text: response ?? ''));
+                            if (!context.mounted) return;
                             showMessage(context, 'Response Copied');
                           },child: SizedBox(
                             height: height*0.035,
@@ -509,7 +538,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                             return InkWell(
                                 onTap: (){
                                   //Calling Firestore Code To Store the response.
-                                  saveResponse(context,response!);
+                                  saveResponse(context, response ?? '');
                                 },
                                 child: SizedBox(
                                   height: height*0.035,
@@ -566,25 +595,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
       floatingActionButton: FloatingActionButton(
         key: floatingButtonKey,
           backgroundColor: Colors.white,
-          onPressed: () async{
-
-            //Change the VoiceStatus
-            Provider.of<VoiceOffProviderClass>(context,listen: false).changeVoiceStatus(newbool: false);
-
-            //Stop a Speech
-            _stop();
-
-
-            Provider.of<OnOffProviderClass>(context, listen: false).changeOnorOff();
-            Provider.of<GeminiResponseProviderClass>(context, listen: false).changeResponse(false);
-            Provider.of<ResponseProviderClass>(context,listen: false).UpdateGeminiResponse('',true);
-
-
-            SpeechToTextClass.speechToText.isNotListening
-                ? _speechToTextClass.startListening()
-                : _speechToTextClass.stopListening(context);
-
-          },
+          onPressed: _onMicPressed,
           shape: const CircleBorder(),
           child: Provider.of<OnOffProviderClass>(context, listen: true)
                   .OnorOffCheck
@@ -614,9 +625,13 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                     decoration: BoxDecoration(
                       color: Colors.white12,
                       shape: BoxShape.circle,
-                      image: DecorationImage(image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL.toString())
+                      image: photoUrl == null
+                          ? null
+                          : DecorationImage(image: NetworkImage(photoUrl)),
                     ),
-                    ),),
+                    child: photoUrl == null
+                        ? const Icon(Icons.person, color: Color(0xffF2E7DC))
+                        : null,),
                   //Space
                   SizedBox(
                     width: width*0.01,
@@ -630,11 +645,11 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> with WidgetsBinding
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        text(data: FirebaseAuth.instance.currentUser!.displayName.toString(), fw: FontWeight.w800, fs: 18, col: const Color(0xffF2E7DC)),
+                        text(data: user?.displayName ?? '', fw: FontWeight.w800, fs: 18, col: const Color(0xffF2E7DC)),
                         SizedBox(
                           height: height*0.001,
                         ),
-                        text(data: FirebaseAuth.instance.currentUser!.email.toString(), fw: FontWeight.w800, fs: 8.5, col: const Color(0xffF2E7DC)),
+                        text(data: user?.email ?? '', fw: FontWeight.w800, fs: 8.5, col: const Color(0xffF2E7DC)),
                        ],
                     ),
                   ),

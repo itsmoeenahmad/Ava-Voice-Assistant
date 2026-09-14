@@ -55,12 +55,11 @@ class _SavedReponsesForMobileState extends State<SavedReponsesForMobile> {
               ),
               StreamBuilder(
                   stream: firestoreInstance
-                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
                   builder: (context, snapshot)
                   {
-                    final savedResponses = snapshot.data?.docs;
-                    print(savedResponses.toString());
+                    final savedResponses = snapshot.data?.docs ?? [];
                     if(snapshot.hasError)
                       {
                         return Padding(
@@ -75,7 +74,7 @@ class _SavedReponsesForMobileState extends State<SavedReponsesForMobile> {
                           child: Center(child: LoadingAnimationWidget.fourRotatingDots(color: const Color(0xffF3F3F3), size: 40)),
                         );
                       }
-                    else if(savedResponses!.isNotEmpty)
+                    else if(savedResponses.isNotEmpty)
                       {
                         return ListView.builder(
                           itemCount: savedResponses.length,
@@ -128,7 +127,7 @@ class _SavedReponsesForMobileState extends State<SavedReponsesForMobile> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0), // Adds padding inside the container
                                           child: Text(
-                                            '${response.toString().substring(0, 38)}...', // Truncate and add dots
+                                            response.toString(),
                                             overflow: TextOverflow.ellipsis, // Handles overflow gracefully
                                             maxLines: 1, // Ensures it stays in one line
                                             style: GoogleFonts.bricolageGrotesque(

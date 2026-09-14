@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -8,9 +7,9 @@ import '../../Frontend Code/Screens/Mobile/Get Started For Mobile/GetStartedForM
 
 Future<void> signInWithGoogle(BuildContext context) async {
   try {
-    print('Called');
     // Attempt to sign in the user with Google
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (!context.mounted) return;
 
     // If the user cancels the sign-in, googleUser will be null
     if (googleUser == null) {
@@ -30,6 +29,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
 
     // Sign in to Firebase with the Google credential
     UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    if (!context.mounted) return;
 
     // Check if the user is successfully signed in
     if (userCredential.user != null) {
@@ -46,7 +46,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
       showMessage(context, 'Failed! Try Again',);
     }
   } catch (e) {
-    print('error in catch: $e');
+    if (!context.mounted) return;
     //Showing the message
     showMessage(context, 'An error occurred: $e',);
   }
