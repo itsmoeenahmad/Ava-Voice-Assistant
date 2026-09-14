@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../Reusable Widgets/showMessage.dart';
 import '../../../Reusable Widgets/text.dart';
 
 class ResponseScreen extends StatefulWidget {
-  String responseIs;
-  ResponseScreen({super.key,required this.responseIs});
+  final String responseIs;
+  const ResponseScreen({super.key,required this.responseIs});
 
   @override
   State<ResponseScreen> createState() => _ResponseScreenState();
@@ -16,7 +14,6 @@ class ResponseScreen extends StatefulWidget {
 class _ResponseScreenState extends State<ResponseScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.responseIs);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(

@@ -5,9 +5,9 @@ class OnOffProviderClass extends ChangeNotifier
   bool OnorOffCheck = false;
 
 
-  void changeOnorOff()
+  void changeOnorOff([bool? newBool])
   {
-    OnorOffCheck=!OnorOffCheck;
+    OnorOffCheck=newBool ?? !OnorOffCheck;
     notifyListeners();
   }
 }

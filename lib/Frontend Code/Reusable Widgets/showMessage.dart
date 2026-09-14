@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:voiceassistant/Frontend%20Code/Reusable%20Widgets/text.dart';
 
-showMessage(
-  context,
-    data,
-) {
-  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+import 'text.dart';
+
+void showMessage(BuildContext context, Object? data) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: text(
-        data: data,
+        data: data?.toString() ?? '',
         fw: FontWeight.bold,
         fs: 20,
         col: const Color(0xff272727)),
